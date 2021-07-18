@@ -61,6 +61,7 @@ export interface IFilteredProduct {
   id: number;
   title: string;
   count: number;
+  price: number;
 }
 
 export interface IUserLogin {
@@ -80,4 +81,9 @@ export interface IChangeAccAdmin {
   operationStatus: boolean;
   errMessage: string;
   infoMessage: string;
+}
+
+export interface IDeletedUser {
+  usersList: IExistUserData[];
+  information: string;
 }

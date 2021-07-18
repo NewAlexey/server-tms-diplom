@@ -41,8 +41,23 @@ export const getUserOrders = async (userEmail: string, userList: IExistUserData[
   }
 };
 
-export const saveNewUserInList = async (newUser: INewUserLoginInfo, existUserList: IExistUserData[]): Promise<boolean> => {
-  const newId = existUserList.reverse()[LAST_USER].id;
+const getNewId = (usersList: IExistUserData[]): number => {
+  return usersList.reduce((acc, user) => {
+    if (user.id > acc) {
+      acc = user.id;
+
+      return acc;
+    }
+
+    return acc;
+  }, 0);
+};
+
+export const saveNewUserInList = async (
+  newUser: INewUserLoginInfo,
+  existUserList: IExistUserData[]
+): Promise<boolean> => {
+  const newId = getNewId(existUserList);
   const newUserModel = {
     id: newId + 1,
     email: newUser.email,
@@ -58,4 +73,8 @@ export const saveNewUserInList = async (newUser: INewUserLoginInfo, existUserLis
   } catch (err) {
     return Promise.reject(false);
   }
+};
+
+export const deleteCurrentUser = async (id: string, userList: IExistUserData[]): Promise<IExistUserData[]> => {
+  return userList.filter((user) => user.id !== +id);
 };
